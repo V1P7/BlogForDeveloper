@@ -1,0 +1,28 @@
+{% extends 'Blog/Main/base.html' %}
+
+{% block content %}
+    <h2>Все посты в категории: {{ category.name }}</h2>
+     <div class="container">
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 py-4">
+        {% for post in posts %}
+            <div class="col">
+                <div class="card shadow-sm">
+                    <img class="bd-placeholder-img card-img-top" src="{{ post.photo.url }}" width="100%" height="250" alt="Placeholder: Thumbnail">
+                    <div class="card-body">
+                        <h4>{{ post.title }}</h4>
+                        <p class="card-text">{{ post.content | slice:":100"}}...</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="btn-group">
+                            <a class="btn btn-dark" type="button" href="{% url 'post_detail' slug=post.slug %}" >Читать далее..</a>
+                        </div>
+                    <small class="text-body-secondary">{{ post.read_time }} мин</small>
+                    <small class="text-body-secondary">{{ post.publish_date }}</small>
+                    <small class="text-body-secondary"><a class="btn" type="button" href="{% url 'user_posts'%}" >{{ post.author }}</a></small>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+{% endblock %}

@@ -6,6 +6,12 @@
         <div class="card-body">
             <h1>{{ post.title }}</h1>
             <p>{{ post.content }}</p>
+            <h4>Категории:</h4>
+            <ul>
+                {% for category in post.categories.all %}
+                    <li>{{ category.name }}</li>
+                {% endfor %}
+            </ul>
         </div>
     </div>
 {% endblock %}

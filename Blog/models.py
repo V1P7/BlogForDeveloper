@@ -1,16 +1,17 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, AbstractUser
 from django.utils import timezone
 from django.utils.text import slugify
 
 class Category(models.Model):
-	name = models.CharField(verbose_name = 'Категории', max_length = 200)
+	name = models.CharField(max_length = 200)
 	
 	def __str__(self):
 		return self.name
 	class Meta:
-		verbose_name = 'Категория'
+		verbose_name = 'категорию'
 		verbose_name_plural = 'Категории'
+		
 class Post(models.Model):
 	title = models.CharField(verbose_name = 'Оглавление', max_length=50)
 	content = models.TextField(verbose_name = 'Содержание поста')
@@ -35,4 +36,3 @@ class Post(models.Model):
 		
 	def __str__(self):
 		return self.title
-	

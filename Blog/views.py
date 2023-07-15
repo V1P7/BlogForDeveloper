@@ -1,6 +1,13 @@
-from django.shortcuts import render, get_object_or_404
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.models import User
+from django.contrib.auth.views import LoginView
+from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
+from django.urls import reverse_lazy
+from django.views.generic import CreateView
+
+from .forms import RegistrationForm
 from .models import Post, Category
 
 @login_required
@@ -38,8 +45,8 @@ def post_detail(request, slug):
 	post = get_object_or_404(Post, slug=slug)
 	return render(request, 'Blog/Additional/post_detail.html', {'post': post})
 
-def user_posts(request):
-    user = request.user  # Получаем текущего пользователя
+def user_posts(request, user_id):
+    user = User.objects.get(id=user_id)
     title = 'Все статьи пользователя'
     posts = Post.objects.filter(author=user)
     context = {'title': title, 'posts': posts}
@@ -48,5 +55,22 @@ def user_posts(request):
 def posts_by_category(request, category_id):
     category = Category.objects.get(id=category_id)
     posts = Post.objects.filter(categories=category)
-    context = {'category': category, 'posts': posts}
+    title = 'Все посты в категории: '
+    context = {'category': category, 'posts': posts, 'title': title}
     return render(request, 'Blog/Additional/category_posts.html', context)
+
+class RegisterUser(CreateView):
+	form_class = RegistrationForm
+	template_name = 'Blog/Additional/register.html'
+	success_url = reverse_lazy('login')
+	
+	def form_valid(self, form):
+		form.save()
+		return super().form_valid(form)
+	
+class LoginUser(LoginView):
+    template_name = 'Blog/Additional/login.html'
+    form_class = AuthenticationForm
+    
+    def get_success_url(self):
+	    return reverse_lazy('index')

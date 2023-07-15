@@ -39,8 +39,7 @@
                 </div>
                     <small class="text-body-secondary">{{ post.read_time }} мин</small>
                     <small class="text-body-secondary">{{ post.publish_date }}</small>
-                    <small class="text-body-secondary"><a class="btn" type="button" href="{% url 'user_posts'%}" >{{ post.author }}</a></small>
-
+                    <small class="text-body-secondary"><a class="btn" type="button" href="{% url 'user_posts' user_id=post.author.id %}" >{{ post.author.username }}</a></small>
               </div>
             </div>
           </div>

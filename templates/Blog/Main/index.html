@@ -218,7 +218,7 @@
           <h4 class="fst-italic">Категории</h4>
           <ol class="list-unstyled mb-0">
               {% for category in categories %}
-                  <li><a href="#">{{ category.name }}</a></li>
+                  <li><a href="{% url 'posts_by_category' category_id=category.id %}" class="btn btn-outline-dark">{{ category.name }}</a></li>
               {% endfor %}
           </ol>
         </div>

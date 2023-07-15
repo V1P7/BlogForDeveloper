@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import user_posts, posts_by_category, RegisterUser, LoginUser
+from .views import user_posts, posts_by_category, RegisterUser, LoginUser, LogoutUser
 
 urlpatterns = [
 	path('', views.index, name = 'index'),
@@ -12,5 +12,6 @@ urlpatterns = [
 	path('category/<int:category_id>/', posts_by_category, name='posts_by_category'),
 	path('login/', LoginUser.as_view(), name='login'),
 	path('register/', RegisterUser.as_view(), name='register'),
+	path('logout/', LogoutUser, name='logout'),
 ]
 

@@ -1,3 +1,4 @@
+from django.contrib.auth import logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView
@@ -74,3 +75,7 @@ class LoginUser(LoginView):
     
     def get_success_url(self):
 	    return reverse_lazy('index')
+
+def LogoutUser(request):
+	logout(request)
+	return redirect('login')

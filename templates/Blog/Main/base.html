@@ -21,7 +21,7 @@
     <meta name="theme-color" content="#712cf9">
 
     <style>
-      .bd-placeholder-img {
+        .bd-placeholder-img {
         font-size: 1.125rem;
         text-anchor: middle;
         -webkit-user-select: none;
@@ -116,8 +116,16 @@
             <a class="link-secondary" href="#" aria-label="Search">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="mx-3" role="img" viewBox="0 0 24 24"><title>Search</title><circle cx="10.5" cy="10.5" r="7.5"/><path d="M21 21l-5.2-5.2"/></svg>
             </a>
-            <a href="{% url 'login' %}" class="btn btn-outline-dark me-2">Login</a>
-            <a href="{% url 'register' %}" class="btn btn-dark">Sign-up</a>
+            {% if user.is_authenticated %}
+  <!-- Имя пользователя и кнопка выхода -->
+            <span>Привет, {{ user.username }}!</span>
+            <a href="{% url 'logout' %}" class="btn btn-outline-dark me-2" style="margin-left: 8px">Выйти</a>
+            {% else %}
+            <!-- Кнопки входа и регистрации -->
+                <a href="{% url 'login' %}" class="btn btn-outline-dark me-2">Войти</a>
+                <a href="{% url 'register' %}" class="btn btn-dark">Зарегистрироваться</a>
+            {% endif %}
+
         </div>
     </div>
     </header>
@@ -148,7 +156,7 @@
 
 
 
-  <footer class="py-5">
+  <footer class="py-5 py-1">
       <!-- Футер страницы -->
       <div class="container">
     <div class="row py-4 text-center text-body-dark bg-body-tertiary">

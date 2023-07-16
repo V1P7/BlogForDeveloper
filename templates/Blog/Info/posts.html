@@ -4,14 +4,14 @@
 
   <section class="text-center container">
     <div class="row">
-
+        <h4 class="fst-italic">{{ title }}</h4>
         <div class="col-lg-6 mx-auto">
-            <h4 class="fst-italic">{{ title }}</h4>
             <p class="lead text-body-secondary"></p>
             <p>
             <form method="GET">
-                    {{ form }}<a class="link-secondary" href="#" aria-label="Search"><button type="submit">Найти</button>
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="mx-3" role="img" viewBox="0 0 24 24"><title>Search</title><circle cx="10.5" cy="10.5" r="7.5"/><path d="M21 21l-5.2-5.2"/></svg></a>
+                    {{ form }}
+                <a class="link-secondary" href="#" aria-label="Search"><button class="btn btn-dark" type="submit">⇨</button>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="mx-3" role="img" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="7.5"/><path d="M21 21l-5.2-5.2"/></svg></a>
             </form>
             </p>
         </div>
@@ -47,7 +47,7 @@
               <p class="card-text">{{ post.content | slice:":100"}}...</p>
               <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
-                  <a class="btn btn-dark" type="button" href="{% url 'post_detail' slug=post.slug %}" >⇨</a>
+                  <a class="btn btn-dark" type="button" href="{% url 'post_detail' slug=post.slug %}">⇨</a>
                 </div>
                     <small class="text-body-secondary">{{ post.read_time }} мин</small>
                     <small class="text-body-secondary">{{ post.publish_date }}</small>

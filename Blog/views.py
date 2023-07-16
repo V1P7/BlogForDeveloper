@@ -1,4 +1,5 @@
 from django.contrib.auth import logout
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView
 from django.shortcuts import render, get_object_or_404, redirect
@@ -7,7 +8,7 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView
 from django.db import models
 
-from .forms import RegistrationForm, PostSearchForm
+from .forms import RegistrationForm, PostSearchForm, LoginForm, PostForm
 from .models import Post, Category
 
 def index(request):
@@ -21,7 +22,7 @@ def posts(request):
     posts = Post.objects.all()
     categories = Category.objects.all()
     # paginator = Paginator(posts, 6)  # Показывать по 6 объектов на странице
-    title = 'Поиск статей'
+    title = 'Все посты'
     # page_number = request.GET.get('page')
     # page_obj = paginator.get_page(page_number)
     
@@ -75,10 +76,26 @@ class RegisterUser(CreateView):
     
 class LoginUser(LoginView):
     template_name = 'Blog/Additional/login.html'
-    
+    form_class = LoginForm
     def get_success_url(self):
         return reverse_lazy('index')
 
 def logout_user(request):
     logout(request)
     return redirect('login')
+
+@login_required
+def create_post(request):
+    # title = 'Написать статью'
+    if request.method == 'POST':
+        form = PostForm(request.POST, request.FILES, user=request.user)
+        if form.is_valid():
+            form.instance.author = request.user
+            form.save()
+            return redirect('posts')
+    else:
+        form = PostForm(user=request.user)
+        
+        # context = {'title': title, 'form': form}
+        return render(request, 'Blog/Additional/create_post.html', {'form': form})
+        

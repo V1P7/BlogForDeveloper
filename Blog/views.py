@@ -7,8 +7,9 @@ from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
+from django.db import models
 
-from .forms import RegistrationForm
+from .forms import RegistrationForm, PostSearchForm
 from .models import Post, Category
 
 @login_required
@@ -20,16 +21,23 @@ def index(request):
 	return render(request, 'Blog/Main/index.html', context)
 
 def posts(request):
-	title = 'Заглушка для постов'
+	form = PostSearchForm()
 	posts = Post.objects.all()
 	categories = Category.objects.all()
-	paginator = Paginator(posts, 6) # Показывать по 6 объектов на странице
+	paginator = Paginator(posts, 6)  # Показывать по 6 объектов на странице
+	title = 'Поиск статей'
+	# page_number = request.GET.get('page')
+	# page_obj = paginator.get_page(page_number)
 	
-	page_number = request.GET.get('page')
-	page_obj = paginator.get_page(page_number)
-	
-	context = {'title': title, 'page_obj': page_obj, 'categories': categories}
-	
+	if 'search_query' in request.GET:
+		search_query = request.GET.get('search_query')
+		# Выполните поиск по заголовку и содержимому
+		posts = Post.objects.filter(
+			models.Q(title__icontains = search_query) | models.Q(content__icontains = search_query)
+		)
+	# снять коммент когда придумаю как починить пагинацию
+	# context = {'title': title, 'page_obj': page_obj, 'categories': categories, 'posts': posts, 'form': form}
+	context = {'title': title, 'categories': categories, 'posts': posts, 'form': form}
 	return render(request, 'Blog/Info/posts.html', context)
 
 def forum(request):

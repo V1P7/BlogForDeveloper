@@ -12,6 +12,23 @@
                     <li>{{ category.name }}</li>
                 {% endfor %}
             </ul>
+        <div>
+    <div>
+<div>
+    <form action="{% url 'like_post' post.id %}" method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-primary">Лайк</button>
+    </form>
+    <span><p>Понравилось:{{ post.count_likes }}</p></span>
+</div>
+
+<div>
+    <form action="{% url 'dislike_post' post.id %}" method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Дизлайк</button>
+    </form>
+    <span><p>Не понравилось:{{ post.count_dislikes }}</p></span>
+</div>
         </div>
     </div>
 {% endblock %}

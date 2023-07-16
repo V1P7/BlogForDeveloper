@@ -5,11 +5,13 @@ from django.contrib.auth.views import LoginView
 from django.shortcuts import render, get_object_or_404, redirect
 # from django.core.paginator import Paginator
 from django.urls import reverse_lazy
+from django.views.decorators.http import require_POST
 from django.views.generic import CreateView
 from django.db import models
 
 from .forms import RegistrationForm, PostSearchForm, LoginForm, PostForm
-from .models import Post, Category
+from .models import Post, Category, Like, Dislike
+
 
 def index(request):
     title = 'Главная страница'
@@ -98,4 +100,19 @@ def create_post(request):
         
         # context = {'title': title, 'form': form}
         return render(request, 'Blog/Additional/create_post.html', {'form': form})
-        
+
+def like_post(request, post_id):
+    post = get_object_or_404(Post, pk=post_id)
+    like, created = Like.objects.get_or_create(user=request.user, post=post)
+    if not created:
+        like.liked = not like.liked
+        like.save()
+    return redirect('post_detail', slug=post.slug)
+
+def dislike_post(request, post_id):
+    post = get_object_or_404(Post, pk=post_id)
+    dislike, created = Dislike.objects.get_or_create(user=request.user, post=post)
+    if not created:
+        dislike.disliked = not dislike.disliked
+        dislike.save()
+    return redirect('post_detail', slug=post.slug)

@@ -1,10 +1,17 @@
 {% extends 'Blog/Main/base.html' %}
 
 {% block content %}
-  <h2>Логин</h2>
-    <form method="post" class="mt-4">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-dark">Войти</button>
-    </form>
+  <!-- Blog/Additional/login.html -->
+<form method="post">
+    {% csrf_token %}
+    <div class="mb-3">
+        {{ form.username.label_tag }}
+        {{ form.username }}
+    </div>
+    <div class="mb-3">
+        {{ form.password.label_tag }}
+        {{ form.password }}
+    </div>
+    <button type="submit" class="btn btn-dark">Войти</button>
+</form>
 {% endblock %}

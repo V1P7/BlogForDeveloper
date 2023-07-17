@@ -1,4 +1,3 @@
-from django.contrib.auth.decorators import login_required
 from django.db import models
 from django.contrib.auth.models import User, AbstractUser
 from django.utils import timezone
@@ -46,6 +45,16 @@ class Post(models.Model):
 	
 	def count_dislikes(self):
 		return self.dislike_set.filter(disliked = True).count()
+
+
+class Comment(models.Model):
+	user = models.ForeignKey(User, on_delete = models.CASCADE)
+	post = models.ForeignKey('Blog.Post', on_delete = models.CASCADE)
+	text = models.TextField()
+	created_at = models.DateTimeField(auto_now_add=True)
+	
+	def __str__(self):
+		return  f'{self.user.username} - {self.text}'
 
 
 class Like(models.Model):

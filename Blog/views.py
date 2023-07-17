@@ -9,8 +9,8 @@ from django.views.decorators.http import require_POST
 from django.views.generic import CreateView
 from django.db import models
 
-from .forms import RegistrationForm, PostSearchForm, LoginForm, PostForm
-from .models import Post, Category, Like, Dislike
+from .forms import RegistrationForm, PostSearchForm, LoginForm, PostForm, CommentForm
+from .models import Post, Category, Like, Dislike, Comment
 
 
 def index(request):
@@ -51,7 +51,19 @@ def guides(request):
 
 def post_detail(request, slug):
     post = get_object_or_404(Post, slug=slug)
-    return render(request, 'Blog/Additional/post_detail.html', {'post': post})
+    comments = Comment.objects.filter(post=post).order_by('-created_at')
+    comment_form = CommentForm()
+    
+    if request.method == 'POST':
+        comment_form = CommentForm(request.POST)
+        if comment_form.is_valid():
+            new_comment = comment_form.save(commit=False)
+            new_comment.user = request.user
+            new_comment.post = post
+            new_comment.save()
+            return redirect('post_detail', slug = slug)
+    
+    return render(request, 'Blog/Additional/post_detail.html', {'post': post, 'comments': comments, 'comment_form': comment_form})
 
 def user_posts(request, user_id):
     user = User.objects.get(id=user_id)

@@ -19,7 +19,7 @@
         {% csrf_token %}
         <button type="submit" class="btn btn-primary">Лайк</button>
     </form>
-    <span><p>Понравилось:{{ post.count_likes }}</p></span>
+    <span>Понравилось:{{ post.count_likes }}</span>
 </div>
 
 <div>
@@ -27,8 +27,32 @@
         {% csrf_token %}
         <button type="submit" class="btn btn-danger">Дизлайк</button>
     </form>
-    <span><p>Не понравилось:{{ post.count_dislikes }}</p></span>
+    <span>Не понравилось:{{ post.count_dislikes }}</span>
 </div>
+    <h2>Все комментарии</h2>
+        <ul>
+            {% for comment in comments %}
+                <li>
+                    <strong>{{ comment.user.username }}</strong>
+                    <p>{{ comment.text }}</p>
+                    <p>{{ comment.created_at }}</p>
+                </li>
+            {% empty %}
+                <li>Пока нет комментариев</li>
+            {% endfor %}
+        </ul>
+
+        {% if user.is_authenticated %}
+            <h3>Добавить комментарий</h3>
+            <form method="post">
+                {% csrf_token %}
+                {{ comment_form.as_p }}
+                <input type="submit" class="btn btn-dark" value="Добавить комментарий">
+            </form>
+        {% else %}
+            <p>Пожалуйста <a href="{% url 'login' %}">войдите</a> для того чтобы добавить комментарий</p>
+        {% endif %}
         </div>
     </div>
+</div>
 {% endblock %}

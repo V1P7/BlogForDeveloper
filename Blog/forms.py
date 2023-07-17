@@ -1,7 +1,8 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
-from .models import Post
+from .models import Post, Comment
+
 
 class RegistrationForm(UserCreationForm):
     email = forms.EmailField(label='Почта', widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Почта'}))
@@ -38,5 +39,15 @@ class PostForm(forms.ModelForm):
 		if self.user:
 			self.instance.author = self.user
 		return super().save(commit=commit)
-	
-	
+
+
+class CommentForm(forms.ModelForm):
+	# text = forms.CharField(label = 'Текст')
+	class Meta:
+		model = Comment
+		fields = ['text']
+	def __init__(self, *args, **kwargs):
+		self.user = kwargs.pop('user', None)
+		super().__init__(*args, **kwargs)
+		self.fields['text'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Текст комментария'})
+		

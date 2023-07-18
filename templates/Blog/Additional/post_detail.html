@@ -14,7 +14,7 @@
             </ul>
         <div>
     <div>
-<div>
+<div class="like">
     <form action="{% url 'like_post' post.id %}" method="post">
         {% csrf_token %}
         <button type="submit" class="btn btn-primary">Лайк</button>
@@ -22,7 +22,7 @@
     <span>Понравилось:{{ post.count_likes }}</span>
 </div>
 
-<div>
+<div class="dislike">
     <form action="{% url 'dislike_post' post.id %}" method="post">
         {% csrf_token %}
         <button type="submit" class="btn btn-danger">Дизлайк</button>
@@ -53,6 +53,14 @@
             <p>Пожалуйста <a href="{% url 'login' %}">войдите</a> для того чтобы добавить комментарий</p>
         {% endif %}
         </div>
+            <div class="drop-post">
+                {% if user.is_authenticated and post.author == user %}
+                    <form action="{% url 'delete_post' post.slug %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Удалить пост</button>
+                    </form>
+                {% endif %}
+            </div>
     </div>
 </div>
 {% endblock %}

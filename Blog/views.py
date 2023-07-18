@@ -128,3 +128,12 @@ def dislike_post(request, post_id):
         dislike.disliked = not dislike.disliked
         dislike.save()
     return redirect('post_detail', slug=post.slug)
+
+
+@login_required
+def delete_post(request, slug):
+    post = get_object_or_404(Post, slug=slug)
+    
+    if request.user == post.author:
+        post.delete()
+    return redirect('posts')

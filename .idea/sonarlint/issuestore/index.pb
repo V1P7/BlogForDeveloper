@@ -6,8 +6,6 @@ B
 .gitignore,a/5/a5cc2925ca8258af241be7e5b0381edf30266302
 W
 'templates/Blog/Additional/register.html,a/d/ad08c3037db830df3eb56cbe0bbfde589ea4a795
-H
-BlogForDeveloper/urls.py,e/3/e323eea9c5f079d98710be63d927726e894d231a
 <
 Blog/apps.py,b/e/be68fb18ff63a43b909f14c1a656aef184cf94f5
 N

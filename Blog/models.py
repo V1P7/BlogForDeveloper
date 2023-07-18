@@ -71,7 +71,15 @@ class Like(models.Model):
 		self.post.save()
 		super().save(*args, **kwargs)
 
+
 class Dislike(models.Model):
 	user = models.ForeignKey(User, on_delete = models.CASCADE)
 	post = models.ForeignKey(Post, on_delete = models.CASCADE)
 	disliked = models.BooleanField(default = True)
+
+
+class Subscriber(models.Model):
+	email = models.EmailField(unique = True)
+	
+	def __str__(self):
+		return self.email

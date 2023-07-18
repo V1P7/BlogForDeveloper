@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
-from .models import Post, Comment
+from .models import Post, Comment, Subscriber
 
 
 class RegistrationForm(UserCreationForm):
@@ -18,8 +18,11 @@ class RegistrationForm(UserCreationForm):
 class LoginForm(AuthenticationForm):
 	username = forms.CharField(label='Логин', widget = forms.TextInput(attrs = {'class': 'form-control', 'placeholder': 'Логин'}))
 	password = forms.CharField(label='Пароль', widget = forms.PasswordInput(attrs = {'class': 'form-control', 'placeholder': 'Пароль'}))
+	
+	
 class PostSearchForm(forms.Form):
 	search_query = forms.CharField(label='Поиск', max_length=100, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Поиск'}))
+	
 	
 class PostForm(forms.ModelForm):
 	class Meta:
@@ -50,4 +53,12 @@ class CommentForm(forms.ModelForm):
 		self.user = kwargs.pop('user', None)
 		super().__init__(*args, **kwargs)
 		self.fields['text'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Текст комментария'})
-		
+
+
+class SubscriberForm(forms.ModelForm):
+	class Meta:
+		model = Subscriber
+		fields = ['email']
+		widgets = {
+			'email': forms.EmailInput(attrs = {'class': 'form-control', 'placeholder': 'Введите ваш email'}),
+		}

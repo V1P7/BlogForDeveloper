@@ -10,7 +10,7 @@ from django.views.decorators.http import require_POST
 from django.views.generic import CreateView
 from django.db import models
 
-from .forms import RegistrationForm, PostSearchForm, LoginForm, PostForm, CommentForm
+from .forms import RegistrationForm, PostSearchForm, LoginForm, PostForm, CommentForm, SubscriberForm
 from .models import Post, Category, Like, Dislike, Comment
 
 
@@ -19,13 +19,23 @@ def index(request):
     categories = Category.objects.all()
     most_liked_post = Post.objects.annotate(num_likes=Count('like')).order_by('-num_likes').first()
     latest_posts = Post.objects.filter(is_published = True).order_by('-publish_date')[:2]
+    if request.method == 'POST':
+        form = SubscriberForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('success')
+    else:
+        form = SubscriberForm()
+        
     context = {
         'title': title,
         'categories': categories,
         'most_liked_post': most_liked_post,
-        'latest_posts': latest_posts
+        'latest_posts': latest_posts,
+        'form': form
                }
     return render(request, 'Blog/Main/index.html', context)
+
 
 def posts(request):
     form = PostSearchForm()
@@ -47,15 +57,18 @@ def posts(request):
     context = {'title': title, 'categories': categories, 'posts': posts, 'form': form}
     return render(request, 'Blog/Info/posts.html', context)
 
+
 def forum(request):
     title = 'Заглушка для форума'
     context = {'title': title}
     return render(request, 'Blog/Info/forum.html', context)
 
+
 def guides(request):
     title = 'Заглушка для гайдов'
     context = {'title': title}
     return render(request, 'Blog/Info/guides.html', context)
+
 
 def post_detail(request, slug):
     post = get_object_or_404(Post, slug=slug)
@@ -73,6 +86,7 @@ def post_detail(request, slug):
     
     return render(request, 'Blog/Additional/post_detail.html', {'post': post, 'comments': comments, 'comment_form': comment_form})
 
+
 def user_posts(request, user_id):
     user = User.objects.get(id=user_id)
     title = 'Все статьи пользователя'
@@ -80,12 +94,14 @@ def user_posts(request, user_id):
     context = {'title': title, 'posts': posts}
     return render(request, 'Blog/Additional/user_posts.html', context)
 
+
 def posts_by_category(request, category_id):
     category = Category.objects.get(id=category_id)
     posts = Post.objects.filter(categories=category)
     title = 'Все посты в категории: '
     context = {'category': category, 'posts': posts, 'title': title}
     return render(request, 'Blog/Additional/category_posts.html', context)
+
 
 class RegisterUser(CreateView):
     form_class = RegistrationForm
@@ -96,11 +112,13 @@ class RegisterUser(CreateView):
         form.save()
         return super().form_valid(form)
     
+    
 class LoginUser(LoginView):
     template_name = 'Blog/Additional/login.html'
     form_class = LoginForm
     def get_success_url(self):
         return reverse_lazy('index')
+
 
 def logout_user(request):
     logout(request)
@@ -151,3 +169,7 @@ def delete_post(request, slug):
     if request.user == post.author:
         post.delete()
     return redirect('posts')
+
+
+def success(request):
+    return render(request, 'Blog/Additional/success.html')

@@ -2,6 +2,7 @@ from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView
+from django.db.models import Count
 from django.shortcuts import render, get_object_or_404, redirect
 # from django.core.paginator import Paginator
 from django.urls import reverse_lazy
@@ -16,7 +17,8 @@ from .models import Post, Category, Like, Dislike, Comment
 def index(request):
     title = 'Главная страница'
     categories = Category.objects.all()
-    context = {'title': title, 'categories': categories}
+    most_liked_post = Post.objects.annotate(num_likes=Count('like')).order_by('-num_likes').first()
+    context = {'title': title, 'categories': categories, 'most_liked_post': most_liked_post}
     return render(request, 'Blog/Main/index.html', context)
 
 def posts(request):
@@ -113,6 +115,7 @@ def create_post(request):
         # context = {'title': title, 'form': form}
         return render(request, 'Blog/Additional/create_post.html', {'form': form})
 
+
 def like_post(request, post_id):
     post = get_object_or_404(Post, pk=post_id)
     like, created = Like.objects.get_or_create(user=request.user, post=post)
@@ -120,6 +123,11 @@ def like_post(request, post_id):
         like.liked = not like.liked
         like.save()
     return redirect('post_detail', slug=post.slug)
+
+# def most_liked_post(request):
+#     most_liked_post = Post.objects.filter(likes_count__gt = 0).order_by('-likes_count').first()
+#     return render(request, 'Blog/Info/posts.html', {'most_liked_post':most_liked_post})
+
 
 def dislike_post(request, post_id):
     post = get_object_or_404(Post, pk=post_id)

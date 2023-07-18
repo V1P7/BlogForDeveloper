@@ -26,6 +26,7 @@ class Post(models.Model):
 	is_published = models.BooleanField(verbose_name = 'Опубликовано', default = False)
 	slug = models.SlugField(verbose_name = 'Читаемый URL', unique = True, default = '', null = True, blank = True)
 	categories = models.ManyToManyField(Category, verbose_name = 'Категории', null = True, blank = True)
+	likes_count = models.IntegerField(default = 0, verbose_name = 'Количество лайков')
 	
 	class Meta:
 		verbose_name = 'Пост'
@@ -61,7 +62,14 @@ class Like(models.Model):
 	user = models.ForeignKey(User, on_delete = models.CASCADE)
 	post = models.ForeignKey(Post, on_delete = models.CASCADE)
 	liked = models.BooleanField(default = True)
-
+	
+	def save(self, *args, **kwargs):
+		if self.liked:
+			self.post.likes_count += 1
+		else:
+			self.post.likes_count -= 1
+		self.post.save()
+		super().save(*args, **kwargs)
 
 class Dislike(models.Model):
 	user = models.ForeignKey(User, on_delete = models.CASCADE)

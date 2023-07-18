@@ -1,0 +1,11 @@
+{% extends 'Blog/Main/base.html' %}
+
+{% block content %}
+    {% if most_liked_post %}
+        <h2>Самый залайканый пост</h2>
+        <h3>{{ most_liked_post.title }}</h3>
+        <p>{{ most_liked_post.content }}</p>
+    {% else %}
+        <p>Пока нет залайканных постов</p>
+    {% endif %}
+{% endblock %}

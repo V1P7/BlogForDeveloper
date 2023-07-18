@@ -18,6 +18,7 @@ urlpatterns = [
 	#   Отображение лайков дизлайков
 	path('like_post/<int:post_id>/', views.like_post, name = 'like_post'),
 	path('dislike_post/<int:post_id>/', views.dislike_post, name = 'dislike_post'),
+	# path('most_like_post/<int:post_id>/', views.most_liked_post, name = 'most_liked_post'),
 	#   Отображение страниц входа/регистрации/выхода
 	path('login/', LoginUser.as_view(), name='login'),
 	path('register/', RegisterUser.as_view(), name='register'),

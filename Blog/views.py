@@ -18,7 +18,13 @@ def index(request):
     title = 'Главная страница'
     categories = Category.objects.all()
     most_liked_post = Post.objects.annotate(num_likes=Count('like')).order_by('-num_likes').first()
-    context = {'title': title, 'categories': categories, 'most_liked_post': most_liked_post}
+    latest_posts = Post.objects.filter(is_published = True).order_by('-publish_date')[:2]
+    context = {
+        'title': title,
+        'categories': categories,
+        'most_liked_post': most_liked_post,
+        'latest_posts': latest_posts
+               }
     return render(request, 'Blog/Main/index.html', context)
 
 def posts(request):

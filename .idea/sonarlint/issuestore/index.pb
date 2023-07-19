@@ -22,3 +22,23 @@ x
 HBlog/migrations/0012_remove_like_disliked_alter_dislike_post_and_more.py,8/b/8b01bb64919116162629b30aa485f55c2da5e98e
 o
 ?Blog/migrations/0013_alter_dislike_disliked_alter_like_liked.py,9/b/9bed2c4e336467c703913afb085cf89683018650
+Z
+*templates/Blog/Additional/create_post.html,5/9/59c5f7da2b27ae225747d6e899ef8f9630dcaae3
+D
+static/css/index.css,2/8/28a35ba2769794f2a93b458d40b02b5595e68419
+9
+	README.md,8/e/8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d
+T
+$templates/Blog/Additional/login.html,c/4/c4cb06d5bb8e957f4c3df8b9beaab34a3160dcdd
+X
+(Blog/migrations/0016_post_likes_count.py,c/9/c94318a9935c2e4a2df4e9a7c948e2acbe7e47c6
+Y
+)templates/Blog/Additional/most_liked.html,f/1/f127868e41cc08291a2b5a8e0911b837735df9fa
+^
+.Blog/migrations/0017_alter_post_likes_count.py,7/c/7c8a35113d414904eea5ec23893a2d93c52071d5
+H
+BlogForDeveloper/urls.py,e/3/e323eea9c5f079d98710be63d927726e894d231a
+N
+templates/Blog/Info/posts.html,9/8/982aa67c15ffb424919f3c82d4163e9d9d715e2d
+R
+"Blog/migrations/0018_subscriber.py,a/0/a0dfcbccaaa5cc20ae6f186048e4499828302ce7

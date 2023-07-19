@@ -19,6 +19,7 @@ def index(request):
     categories = Category.objects.all()
     most_liked_post = Post.objects.annotate(num_likes=Count('like')).order_by('-num_likes').first()
     latest_posts = Post.objects.filter(is_published = True).order_by('-publish_date')[:2]
+    user_with_most_posts = User.objects.annotate(num_posts=Count('posts')).order_by('-num_posts').first()
     if request.method == 'POST':
         form = SubscriberForm(request.POST)
         if form.is_valid():
@@ -26,13 +27,14 @@ def index(request):
             return redirect('success')
     else:
         form = SubscriberForm()
-        
+    
     context = {
         'title': title,
         'categories': categories,
         'most_liked_post': most_liked_post,
         'latest_posts': latest_posts,
-        'form': form
+        'form': form,
+        'user_with_most_posts': user_with_most_posts,
                }
     return render(request, 'Blog/Main/index.html', context)
 

@@ -36,8 +36,6 @@ Y
 )templates/Blog/Additional/most_liked.html,f/1/f127868e41cc08291a2b5a8e0911b837735df9fa
 ^
 .Blog/migrations/0017_alter_post_likes_count.py,7/c/7c8a35113d414904eea5ec23893a2d93c52071d5
-H
-BlogForDeveloper/urls.py,e/3/e323eea9c5f079d98710be63d927726e894d231a
 N
 templates/Blog/Info/posts.html,9/8/982aa67c15ffb424919f3c82d4163e9d9d715e2d
 R

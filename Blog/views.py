@@ -5,7 +5,7 @@ from django.contrib.auth.views import LoginView
 from django.db.models import Count
 from django.shortcuts import render, get_object_or_404, redirect
 # from django.core.paginator import Paginator
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views.decorators.http import require_POST
 from django.views.generic import CreateView
 from django.db import models
@@ -74,8 +74,9 @@ def guides(request):
 
 def post_detail(request, slug):
     post = get_object_or_404(Post, slug=slug)
-    comments = Comment.objects.filter(post=post).order_by('-created_at')
+    comments = Comment.objects.filter(post=post).order_by('created_at')
     comment_form = CommentForm()
+    reply_form = CommentForm()
     
     if request.method == 'POST':
         comment_form = CommentForm(request.POST)
@@ -86,7 +87,7 @@ def post_detail(request, slug):
             new_comment.save()
             return redirect('post_detail', slug = slug)
     
-    return render(request, 'Blog/Additional/post_detail.html', {'post': post, 'comments': comments, 'comment_form': comment_form})
+    return render(request, 'Blog/Additional/post_detail.html', {'post': post, 'comments': comments, 'comment_form': comment_form, 'reply_form': reply_form})
 
 
 def user_posts(request, user_id):
@@ -148,7 +149,7 @@ def like_post(request, post_id):
     if not created:
         like.liked = not like.liked
         like.save()
-    return redirect('post_detail', slug=post.slug)
+    return redirect(reverse('post_detail', kwargs={'slug': post.slug}))
 
 # def most_liked_post(request):
 #     most_liked_post = Post.objects.filter(likes_count__gt = 0).order_by('-likes_count').first()
@@ -175,3 +176,28 @@ def delete_post(request, slug):
 
 def success(request):
     return render(request, 'Blog/Additional/success.html')
+
+
+@require_POST
+@login_required
+def add_like_to_comment(request, comment_id):
+    comment = get_object_or_404(Comment, pk=comment_id)
+    like, created = Like.objects.get_or_create(comment=comment, user=request.user)
+    if not created:
+        like.delete()
+    return redirect('post_detail', slug=comment.post.slug)
+
+
+@login_required
+def add_reply(request, comment_id):
+    comment = get_object_or_404(Comment, pk = comment_id)
+    post = comment.post
+    parent_comment = get_object_or_404(Comment, pk=comment_id)
+    if request.method == 'POST':
+        reply_text = request.POST['reply_text']
+        reply = Comment(user=request.user, post=post, text=reply_text, parent=parent_comment)
+        reply.save()
+        return redirect('post_detail', slug=post.slug)
+    return render(request, 'Blog/Additional/add_reply.html', {'comment': parent_comment})
+
+

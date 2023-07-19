@@ -18,6 +18,8 @@ urlpatterns = [
 	#   Отображение лайков дизлайков
 	path('like_post/<int:post_id>/', views.like_post, name = 'like_post'),
 	path('dislike_post/<int:post_id>/', views.dislike_post, name = 'dislike_post'),
+	path('comment/<int:comment_id>/like/', views.add_like_to_comment, name='add_like_to_comment'),
+	path('add_reply/<int:comment_id>/', views.add_reply, name='add_reply'),
 	# path('most_like_post/<int:post_id>/', views.most_liked_post, name = 'most_liked_post'),
 	#   Отображение страниц входа/регистрации/выхода
 	path('login/', LoginUser.as_view(), name='login'),

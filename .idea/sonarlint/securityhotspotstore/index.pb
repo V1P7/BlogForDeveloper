@@ -28,8 +28,6 @@ Z
 *templates/Blog/Additional/create_post.html,5/9/59c5f7da2b27ae225747d6e899ef8f9630dcaae3
 9
 	README.md,8/e/8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d
-H
-BlogForDeveloper/urls.py,e/3/e323eea9c5f079d98710be63d927726e894d231a
 T
 $templates/Blog/Additional/login.html,c/4/c4cb06d5bb8e957f4c3df8b9beaab34a3160dcdd
 N

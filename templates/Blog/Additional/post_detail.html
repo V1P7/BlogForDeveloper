@@ -12,55 +12,56 @@
                     <li>{{ category.name }}</li>
                 {% endfor %}
             </ul>
-        <div>
-    <div>
-<div class="like">
-    <form action="{% url 'like_post' post.id %}" method="post">
-        {% csrf_token %}
-        <button type="submit" class="btn btn-primary">Лайк</button>
-    </form>
-    <span>Понравилось:{{ post.count_likes }}</span>
-</div>
-
-<div class="dislike">
-    <form action="{% url 'dislike_post' post.id %}" method="post">
-        {% csrf_token %}
-        <button type="submit" class="btn btn-danger">Дизлайк</button>
-    </form>
-    <span>Не понравилось:{{ post.count_dislikes }}</span>
-</div>
-    <h2>Все комментарии</h2>
-        <ul>
-            {% for comment in comments %}
-                <li>
-                    <strong>{{ comment.user.username }}</strong>
-                    <p>{{ comment.text }}</p>
-                    <p>{{ comment.created_at }}</p>
-                </li>
-            {% empty %}
-                <li>Пока нет комментариев</li>
-            {% endfor %}
-        </ul>
-
-        {% if user.is_authenticated %}
-            <h3>Добавить комментарий</h3>
-            <form method="post">
-                {% csrf_token %}
-                {{ comment_form.as_p }}
-                <input type="submit" class="btn btn-dark" value="Добавить комментарий">
-            </form>
-        {% else %}
-            <p>Пожалуйста <a href="{% url 'login' %}">войдите</a> для того чтобы добавить комментарий</p>
-        {% endif %}
         </div>
-            <div class="drop-post">
-                {% if user.is_authenticated and post.author == user %}
-                    <form action="{% url 'delete_post' post.slug %}" method="post">
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-danger">Удалить пост</button>
-                    </form>
-                {% endif %}
-            </div>
     </div>
-</div>
+
+    <div class="like">
+        <form action="{% url 'like_post' post.id %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary">Лайк</button>
+        </form>
+        <span>Понравилось: {{ post.count_likes }}</span>
+    </div>
+
+    <div class="dislike">
+        <form action="{% url 'dislike_post' post.id %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Дизлайк</button>
+        </form>
+        <span>Не понравилось: {{ post.count_dislikes }}</span>
+    </div>
+
+    <h2>Все комментарии</h2>
+    <ul>
+        {% for comment in comments %}
+            <li>
+                <strong>{{ comment.user.username }}</strong>
+                <p>{{ comment.text }}</p>
+                <p>{{ comment.created_at }}</p>
+                <form action="{% url 'add_reply' comment.id %}" method="post">
+                    {% csrf_token %}
+                    <textarea name="reply_text"></textarea>
+                    <button type="submit">Ответить</button>
+                </form>
+                {% for reply in comment.children.all %}
+                    <div>
+                        <p>{{ reply.text }}</p>
+                    </div>
+                {% endfor %}
+            </li>
+        {% empty %}
+            <li>Пока нет комментариев</li>
+        {% endfor %}
+    </ul>
+
+    {% if user.is_authenticated %}
+        <h3>Добавить комментарий</h3>
+        <form method="post">
+            {% csrf_token %}
+            {{ comment_form.as_p }}
+            <input type="submit" class="btn btn-dark" value="Добавить комментарий">
+        </form>
+    {% else %}
+        <p>Пожалуйста <a href="{% url 'login' %}">войдите</a> для того чтобы добавить комментарий</p>
+    {% endif %}
 {% endblock %}

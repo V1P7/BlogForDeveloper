@@ -1,5 +1,5 @@
 from django.urls import path
-from . import views
+from Blog import views
 from .views import user_posts, posts_by_category, RegisterUser, LoginUser, logout_user, create_post
 
 urlpatterns = [

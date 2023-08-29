@@ -6,19 +6,27 @@
 
 1. Склонируйте репозиторий:
    
-git clone https://github.com/V1P7/BlogForDeveloper.git
+```git clone https://github.com/V1P7/BlogForDeveloper.git```
 
 3. Установите зависимости:
    
-pip install -r requirements.txt
+```pip install -r requirements.txt```
+
+4. Создаем файл миграции
+
+```python manage.py makemigrations```
+
+5. Применяем миграции к БД
+
+```python manage.py migrate```
 
 ## Использование
 
 1. Запустите проект:
    
-python manage.py runserver
+```python manage.py runserver```
 
-3. Перейдите по адресу `http://127.0.0.1:8000/` в вашем веб-браузере.
+2. Перейдите по адресу `http://127.0.0.1:8000/` в вашем веб-браузере.
 
 ## Примеры
 ## Подписаться на рассылку

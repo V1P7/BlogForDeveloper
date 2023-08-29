@@ -8,15 +8,15 @@
    
 ```git clone https://github.com/V1P7/BlogForDeveloper.git```
 
-3. Установите зависимости:
+2. Установите зависимости:
    
 ```pip install -r requirements.txt```
 
-4. Создаем файл миграции
+3. Создаем файл миграции
 
 ```python manage.py makemigrations```
 
-5. Применяем миграции к БД
+4. Применяем миграции к БД
 
 ```python manage.py migrate```
 

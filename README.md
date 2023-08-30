@@ -6,22 +6,39 @@
 
 1. Склонируйте репозиторий:
    
-git clone https://github.com/V1P7/BlogForDeveloper.git
+```git clone https://github.com/V1P7/BlogForDeveloper.git```
 
-3. Установите зависимости:
+2. Установите зависимости:
    
-pip install -r requirements.txt
+```pip install -r requirements.txt```
+
+3. Создаем файл миграции
+
+```python manage.py makemigrations```
+
+4. Применяем миграции к БД
+
+```python manage.py migrate```
 
 ## Использование
 
 1. Запустите проект:
    
-python manage.py runserver
+```python manage.py runserver```
 
-3. Перейдите по адресу `http://127.0.0.1:8000/` в вашем веб-браузере.
+2. Перейдите по адресу `http://127.0.0.1:8000/` в вашем веб-браузере.
 
 ## Примеры
-
+## Подписаться на рассылку
+![Подписаться на рассылку](https://github.com/V1P7/BlogForDeveloper/blob/main/media/media/2023/1.png)
+## Поиск и вывод всех категорий
+![Поиск и вывод всех категорий](https://github.com/V1P7/BlogForDeveloper/blob/main/media/media/2023/2.png)
+## Внешний вид поста, при нажатии на имя выводятся все посты написанные автором
+![Внешний вид поста, при нажатии на имя выводятся все посты написанные автором](https://github.com/V1P7/BlogForDeveloper/blob/main/media/media/2023/3.png)
+## Форма комментария и возможность отвечать на него
+![Форма комментария и возможность отвечать на него](https://github.com/V1P7/BlogForDeveloper/blob/main/media/media/2023/4.png)
+## Форма для написания статьи
+![Форма для написания статьи](https://github.com/V1P7/BlogForDeveloper/blob/main/media/media/2023/5.png)
 
 
 ## Вклад
